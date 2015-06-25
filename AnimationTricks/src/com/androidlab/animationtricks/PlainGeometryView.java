@@ -6,16 +6,17 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.view.View;
 
 public class PlainGeometryView  extends View{	
-	Point mPoint1;
-	Point mPoint2;
-	Point mPoint3;
+	PointF mPoint1;
+	PointF mPoint2;
+	PointF mPoint3;
 	
-	Point mCircleCenter;
-	int mCircleRadius;
+	Circle mExternalCircle;
 	
 	int mWidth;
 	int mHeight;
@@ -62,8 +63,13 @@ public class PlainGeometryView  extends View{
 		canvas.drawLine(mPoint3.x, mPoint3.y, mPoint1.x, mPoint1.y, mPaint);
 	}
 	
-	private void drawExternalCircle(Canvas canvas) {
+	private void drawExternalCircle(Canvas canvas) {	
+		mPaint.setStyle(Style.STROKE);
 		
+		canvas.drawCircle(mExternalCircle.getCenter().x, 
+						  mExternalCircle.getCenter().y, 
+						  mExternalCircle.getRadius(), 
+						  mPaint);
 	}
 	
 	private void calculateCoordinates() {
@@ -80,17 +86,16 @@ public class PlainGeometryView  extends View{
 		mPoint3 = generateRandomPoint();
 	}
 	
-	private Point generateRandomPoint() {
+	private PointF generateRandomPoint() {
 		Random generator = new Random();
-		int x = generator.nextInt(mWidth - 200) + 100;
-		int y = generator.nextInt(mHeight - 200) + 100;
+		float x = generator.nextInt(mWidth - 200) + 100;
+		float y = generator.nextInt(mHeight - 200) + 100;
 		
-		return new Point(x, y);
+		return new PointF(x, y);
 	}
 	
 	private void calculateExternalCircle() {
-		
-		
+		mExternalCircle = new Circle(mPoint1, mPoint2, mPoint3);				
 	}
    
    
