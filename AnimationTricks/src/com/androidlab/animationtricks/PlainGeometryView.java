@@ -28,7 +28,8 @@ public class PlainGeometryView  extends View{
 		
 		mPaint = new Paint();
 		mPaint.setStyle(Paint.Style.FILL);
-		mPaint.setColor(Color.BLACK);
+		mPaint.setStrokeWidth(4);
+		mPaint.setColor(Color.BLUE);
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class PlainGeometryView  extends View{
 	
 	private void drawTriangle(Canvas canvas) {
 		mPaint.setColor(Color.WHITE);
-		
+
 		canvas.drawPoint(mPoint1.x, mPoint1.y, mPaint);
 		canvas.drawPoint(mPoint2.x, mPoint2.y, mPaint);
 		canvas.drawPoint(mPoint3.x, mPoint3.y, mPaint);
@@ -64,12 +65,21 @@ public class PlainGeometryView  extends View{
 	}
 	
 	private void drawExternalCircle(Canvas canvas) {	
-		mPaint.setStyle(Style.STROKE);
+		mPaint.setStyle(Style.STROKE);		
+		mPaint.setColor(Color.YELLOW);
 		
+		// Draw circle
 		canvas.drawCircle(mExternalCircle.getCenter().x, 
 						  mExternalCircle.getCenter().y, 
 						  mExternalCircle.getRadius(), 
 						  mPaint);
+
+		// Draw center of circle
+		canvas.drawCircle(mExternalCircle.getCenter().x, 
+				  		  mExternalCircle.getCenter().y, 
+				  		  4, 
+				  		  mPaint);
+		
 	}
 	
 	private void calculateCoordinates() {
@@ -97,7 +107,4 @@ public class PlainGeometryView  extends View{
 	private void calculateExternalCircle() {
 		mExternalCircle = new Circle(mPoint1, mPoint2, mPoint3);				
 	}
-   
-   
-
 }

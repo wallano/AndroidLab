@@ -11,11 +11,7 @@ public class Circle {
 		mRadius = radius;
 	}
 	
-	public Circle(PointF p1, PointF p2, PointF p3) {
-		p1 = new PointF(5,5);
-		p2 = new PointF(6,-2);
-		p3 = new PointF(2,-4);
-		
+	public Circle(PointF p1, PointF p2, PointF p3) {		
 		Line line1 = new Line(p1, p2);
 		Line line2 = new Line(p2, p3);
 		
@@ -46,7 +42,7 @@ public class Circle {
 		float m1 = line1.getSlope();
 		float m2 = line2.getSlope();
 		
-		return (m1*m2*(y3-y1)+m1*(x2+x3)-m2*(x1+x2))/2*(m1-m2);
+		return (m1*m2*(y3-y1)+m1*(x2+x3)-m2*(x1+x2))/(2*(m1-m2));
 	}
 	
 	private float calculateCenterY(Line line1, float x) {

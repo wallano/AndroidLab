@@ -1,6 +1,5 @@
 package com.androidlab.animationtricks;
 
-import android.graphics.Point;
 import android.graphics.PointF;
 
 /*
@@ -32,19 +31,7 @@ public class Line {
 	public PointF getP2() {
 		return mP2;
 	}	
-	
-	public float getA() {
-		return mA;
-	}
-	
-	public float getB() {
-		return mB;
-	}
-	
-	public float getC() {
-		return mC;
-	}
-	
+		
 	public PointF getMid() {
 		PointF mid = new PointF();
 		mid.x = (mP1.x + mP2.x)/2.0F;				
@@ -58,13 +45,13 @@ public class Line {
 	}
 	
 	static public PointF intersection(Line line1, Line line2) {
-		float d = line1.getA() * line2.getB() - line2.getA() * line1.getB();
+		float d = line1.mA * line2.mB - line2.mA * line1.mB;
 		if(d == 0) {
 			//Lines are parallel
 			return null;
 		} else {
-			float x = (line2.getB() * line1.getC() - line1.getB() * line2.getC()) / d;
-			float y = (line1.getA() * line2.getC() - line2.getA() * line1.getC()) / d;
+			float x = (line2.mB * line1.mC - line1.mB * line2.mC) / d;
+			float y = (line1.mA * line2.mC - line2.mA * line1.mC) / d;
 			
 			return new PointF(x, y);
 		}
