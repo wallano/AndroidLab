@@ -6,6 +6,9 @@ public class Circle {
 	private PointF mCenter;
 	private float mRadius;
 	
+	private float mPrevAngle;
+	private float mAngleStep;
+	
 	public Circle(PointF center, float radius) {
 		mCenter = center;
 		mRadius = radius;
@@ -30,6 +33,29 @@ public class Circle {
 	public float getRadius() {
 		return mRadius;
 	}	
+	
+	public void FirstBoundaryPoint(PointF startBoundaryPoint, float angleStep) {
+		// x = cx + r * cos(a)
+		// y = cy + r * sin(a)
+		mAngleStep = angleStep;
+		
+		float xa = (float)(Math.acos((startBoundaryPoint.x - mCenter.x)/mRadius)*180/Math.PI);
+		float ya = (float)(Math.asin((startBoundaryPoint.y - mCenter.y)/mRadius)*180/Math.PI);
+			
+		mPrevAngle = xa;
+	}
+	
+	public PointF NextBoundaryPoint() {
+		if (mPrevAngle > 360)
+			return null;
+
+		float x = (float)(mCenter.x + mRadius * Math.cos((mPrevAngle + mAngleStep)* Math.PI/180F));
+		float y = (float)(mCenter.y + mRadius * Math.sin((mPrevAngle + mAngleStep)* Math.PI/180F));
+		
+		mPrevAngle += mAngleStep;
+		
+		return new PointF(x, y);		
+	}
 	
 	private float calculateCenterX(Line line1, Line line2) {
 		float x1 = line1.getP1().x;

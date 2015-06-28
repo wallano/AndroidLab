@@ -17,6 +17,7 @@ public class PlainGeometryView  extends View{
 	PointF mPoint3;
 	
 	Circle mExternalCircle;
+	Circle mCustomCircle;
 	
 	int mWidth;
 	int mHeight;
@@ -28,7 +29,7 @@ public class PlainGeometryView  extends View{
 		
 		mPaint = new Paint();
 		mPaint.setStyle(Paint.Style.FILL);
-		mPaint.setStrokeWidth(4);
+		mPaint.setStrokeWidth(2);
 		mPaint.setColor(Color.BLUE);
 	}
 
@@ -46,6 +47,7 @@ public class PlainGeometryView  extends View{
 		drawBackground(canvas);
 		drawTriangle(canvas);
 		drawExternalCircle(canvas);
+		drawCustomCircle(canvas);
 	}
 	
 	private void drawBackground(Canvas canvas) {
@@ -77,9 +79,42 @@ public class PlainGeometryView  extends View{
 		// Draw center of circle
 		canvas.drawCircle(mExternalCircle.getCenter().x, 
 				  		  mExternalCircle.getCenter().y, 
-				  		  4, 
+				  		  2, 
 				  		  mPaint);
+	}
+	
+	void drawCustomCircle(Canvas canvas) {
+		// Draw custom circle
+		canvas.drawCircle(mCustomCircle.getCenter().x, 
+						  mCustomCircle.getCenter().y, 
+						  mCustomCircle.getRadius(), 
+						  mPaint);
 		
+		mPaint.setColor(Color.RED);
+		
+		float startX = (float)(mCustomCircle.getCenter().x + mCustomCircle.getRadius()*Math.cos(0));
+		float startY = (float)(mCustomCircle.getCenter().y + mCustomCircle.getRadius()*Math.sin(0));
+		
+		PointF startBoundaryPoint = new PointF(startX, startY);
+		
+		canvas.drawLine(mCustomCircle.getCenter().x, 
+						mCustomCircle.getCenter().y,
+						startBoundaryPoint.x, 
+						startBoundaryPoint.y, 
+						mPaint);
+
+		mCustomCircle.FirstBoundaryPoint(startBoundaryPoint, 5);
+
+		PointF nextPoint = mCustomCircle.NextBoundaryPoint();
+		while (nextPoint != null) {
+			canvas.drawLine(mCustomCircle.getCenter().x, 
+							mCustomCircle.getCenter().y,
+							nextPoint.x, 
+							nextPoint.y, 
+							mPaint);
+			
+			nextPoint = mCustomCircle.NextBoundaryPoint();
+		}
 	}
 	
 	private void calculateCoordinates() {
@@ -88,6 +123,7 @@ public class PlainGeometryView  extends View{
 
 		initPoints();
 		calculateExternalCircle();
+		calculateCustomCircle();
 	}
 	
 	private void initPoints() {
@@ -106,5 +142,9 @@ public class PlainGeometryView  extends View{
 	
 	private void calculateExternalCircle() {
 		mExternalCircle = new Circle(mPoint1, mPoint2, mPoint3);				
+	}
+	
+	private void calculateCustomCircle() {
+		mCustomCircle = new Circle(new PointF(50.0F, 50.0F), 40.0F);
 	}
 }
